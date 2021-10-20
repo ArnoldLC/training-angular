@@ -1,1 +1,64 @@
-<p>dinamicos works!</p>
+<h2>Reactive: <small>Dinámicos</small></h2>
+<hr>
+
+<form (ngSubmit)="guardar()" [formGroup]="miFormulario" autocomplete="off">
+  <div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Nombre</label>
+    <div class="col-sm-9">
+      <input type="text" 
+             class="form-control"
+             formControlName="nombre"
+             placeholder="Nombre de la persona">
+      <span class="form-text text-danger"
+            *ngIf="campoEsValido('nombre')">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Agregar</label>
+    <div class="col-sm-9">
+      <div class="input-group">
+        <input type="text" 
+               class="form-control"
+               [formControl]="nuevoFavorito"
+               (keyup.enter)="agregarFavorito()"
+               placeholder="Agregar favorito">
+        <button class="btn btn-outline-primary"
+                (click)="agregarFavorito()">Agregar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Favoritos</label>
+    <div class="col-sm-9" formArrayName="favoritos">
+      <div class="input-group mb-2" 
+           *ngFor="let favorito of favoritosArr.controls; let i = index">
+        <input type="text" 
+               class="form-control"
+               [formControlName]="i">
+        <button type="button" 
+                class="btn btn-outline-danger"
+                (click)="eliminarFavorito(i)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="submit" 
+              class="btn btn-primary float-end">Guardar</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <span>Value</span>
+      <pre>{{ miFormulario.value | json }}</pre>
+
+      <span>Agregar juego</span>
+      <pre>{{ nuevoFavorito.value | json }}</pre>
+    </div>
+  </div>
+
+</form>
